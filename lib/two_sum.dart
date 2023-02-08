@@ -17,7 +17,7 @@ class TwoSum {
 
 void main() {
   var solution = TwoSum();
-  print(solution.twoSum([2,7,11,15], 9));
-  print(solution.twoSum([3,2,4], 6));
-  print(solution.twoSum([3,3], 6));
+  assert(solution.twoSum([2, 7, 11, 15], 9).toString() == [0, 1].toString());
+  assert(solution.twoSum([3, 2, 4], 6).toString() == [1, 2].toString());
+  assert(solution.twoSum([3, 3], 6).toString() == [0, 1].toString());
 }
