@@ -193,7 +193,9 @@ class _HomeState extends State<Home> {
     var condition = keyword.toLowerCase();
     List<ToDo> result;
     if (condition.isNotEmpty) {
-      result = todoList.where((element) => element.text.toLowerCase().contains(condition)).toList();
+      result = todoList
+          .where((element) => element.text.toLowerCase().contains(condition))
+          .toList();
     } else {
       result = todoList;
     }
