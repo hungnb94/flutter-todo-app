@@ -13,6 +13,28 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final todoList = ToDo.todoList();
+  var foundTodos = <ToDo>[];
+
+  final _todoController = TextEditingController();
+
+
+  @override
+  void initState() {
+    foundTodos = todoList;
+    super.initState();
+  }
+
+  void _onItemDeleted(ToDo todo) {
+    setState(() {
+      todoList.remove(todo);
+    });
+  }
+
+  void _onItemChanged(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +63,11 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    for (ToDo item in todoList)
+                    for (ToDo item in foundTodos.reversed)
                       ToDoItem(
                         todo: item,
+                        onItemChanged: _onItemChanged,
+                        onItemDeleted: _onItemDeleted,
                       )
                   ],
                 ),
@@ -75,8 +99,9 @@ class _HomeState extends State<Home> {
                     ],
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child: TextField(
+                    controller: _todoController,
+                    decoration: const InputDecoration(
                       hintText: 'Add a new todo item',
                       border: InputBorder.none,
                     ),
@@ -89,7 +114,7 @@ class _HomeState extends State<Home> {
                   bottom: 20,
                 ),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _addToDoItem,
                   child: const Text(
                     '+',
                     style: TextStyle(
@@ -135,8 +160,9 @@ class _HomeState extends State<Home> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const TextField(
-        decoration: InputDecoration(
+      child: TextField(
+        onChanged: _filter,
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
             Icons.search,
@@ -150,5 +176,29 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  void _addToDoItem() {
+    var text = _todoController.text.trim();
+    if (text.isNotEmpty) {
+      var todo = ToDo(id: DateTime.now().millisecond.toString(), text: text);
+      setState(() {
+        todoList.add(todo);
+      });
+      _todoController.clear();
+    }
+  }
+
+  void _filter(String keyword) {
+    var condition = keyword.toLowerCase();
+    List<ToDo> result;
+    if (condition.isNotEmpty) {
+      result = todoList.where((element) => element.text.toLowerCase().contains(condition)).toList();
+    } else {
+      result = todoList;
+    }
+    setState(() {
+      foundTodos = result;
+    });
   }
 }
