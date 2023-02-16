@@ -19,8 +19,19 @@ void main() {
     var tfToDoName = find.bySemanticsLabel('Add a new todo item');
     expect(tfToDoName, findsOneWidget);
     await tester.enterText(tfToDoName, 'Test add');
-    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.text('Test add'), findsOneWidget);
+  });
+
+  testWidgets('Search test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    expect(find.byType(ListTile), findsWidgets);
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.byType(ListTile), findsOneWidget);
   });
 }
