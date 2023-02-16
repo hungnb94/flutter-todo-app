@@ -68,4 +68,56 @@ void main() {
 
     expect(find.byType(ListTile), findsNWidgets(2));
   });
+
+  testWidgets('Test show done', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
+    await tester.pump(const Duration(milliseconds: 100));
+    var textStrikeThrough = find.byWidgetPredicate((widget) =>
+        widget is Text &&
+        widget.style?.decoration == TextDecoration.lineThrough);
+    expect(textStrikeThrough, findsOneWidget);
+  });
+
+  testWidgets('Test show undone', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
+    await tester.pump(const Duration(milliseconds: 100));
+    var textStrikeThrough = find.byWidgetPredicate((widget) =>
+        widget is Text &&
+        widget.style?.decoration == TextDecoration.lineThrough);
+    expect(textStrikeThrough, findsNothing);
+  });
+
+  testWidgets('Test trigger to done', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.byType(ListTile));
+    await tester.pump(const Duration(milliseconds: 100));
+    var textStrikeThrough = find.byWidgetPredicate((widget) =>
+        widget is Text &&
+        widget.style?.decoration == TextDecoration.lineThrough);
+    expect(textStrikeThrough, findsOneWidget);
+  });
+
+  testWidgets('Test trigger to undone', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.byType(ListTile));
+    await tester.pump(const Duration(milliseconds: 100));
+    var textStrikeThrough = find.byWidgetPredicate((widget) =>
+        widget is Text &&
+        widget.style?.decoration == TextDecoration.lineThrough);
+    expect(textStrikeThrough, findsNothing);
+  });
 }
