@@ -20,6 +20,8 @@ void main() {
     expect(tfToDoName, findsOneWidget);
     await tester.enterText(tfToDoName, 'Test add');
     await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.text('+'));
+    await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.text('Test add'), findsOneWidget);
   });
@@ -46,5 +48,24 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.byType(ListTile), findsNothing);
+  });
+
+  testWidgets('Search & add test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    await tester.enterText(find.bySemanticsLabel('Search'), 'abc');
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(find.byType(ListTile), findsNothing);
+    await tester.enterText(find.bySemanticsLabel('Add a new todo item'), 'abc');
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.text('+'));
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.enterText(find.bySemanticsLabel('Add a new todo item'), 'abc');
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.text('+'));
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.byType(ListTile), findsNWidgets(2));
   });
 }

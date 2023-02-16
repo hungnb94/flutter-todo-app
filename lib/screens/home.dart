@@ -16,6 +16,7 @@ class _HomeState extends State<Home> {
   var foundTodos = <ToDo>[];
 
   final _todoController = TextEditingController();
+  final _searchController = TextEditingController();
 
 
   @override
@@ -25,10 +26,8 @@ class _HomeState extends State<Home> {
   }
 
   void _onItemDeleted(ToDo todo) {
-    setState(() {
-      todoList.remove(todo);
-      foundTodos.remove(todo);
-    });
+    todoList.remove(todo);
+    _filter(_searchController.text);
   }
 
   void _onItemChanged(ToDo todo) {
@@ -162,6 +161,7 @@ class _HomeState extends State<Home> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
+        controller: _searchController,
         onChanged: _filter,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(0),
@@ -183,10 +183,9 @@ class _HomeState extends State<Home> {
     var text = _todoController.text.trim();
     if (text.isNotEmpty) {
       var todo = ToDo(id: DateTime.now().millisecond.toString(), text: text);
-      setState(() {
-        todoList.add(todo);
-      });
+      todoList.add(todo);
       _todoController.clear();
+      _filter(_searchController.text);
     }
   }
 
