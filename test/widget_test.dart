@@ -34,4 +34,17 @@ void main() {
 
     expect(find.byType(ListTile), findsOneWidget);
   });
+
+  testWidgets('Search & delete test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    expect(find.byType(ListTile), findsWidgets);
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.byIcon(Icons.delete));
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.byType(ListTile), findsNothing);
+  });
 }

@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
   void _onItemDeleted(ToDo todo) {
     setState(() {
       todoList.remove(todo);
+      foundTodos.remove(todo);
     });
   }
 
