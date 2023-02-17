@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
+import 'package:todo_app/screens/details/details_arguments.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
 import '../model/todo.dart';
@@ -36,6 +37,10 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void _onItemClicked(ToDo todo) {
+    Navigator.pushNamed(context, '/details', arguments: DetailsArguments(todo));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +71,7 @@ class _HomeState extends State<Home> {
                     for (ToDo item in foundTodos.reversed)
                       ToDoItem(
                         todo: item,
+                        onItemClicked: _onItemClicked,
                         onItemChanged: _onItemChanged,
                         onItemDeleted: _onItemDeleted,
                       )

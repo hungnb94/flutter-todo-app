@@ -7,10 +7,12 @@ class ToDoItem extends StatelessWidget {
   final ToDo todo;
   final onItemChanged;
   final onItemDeleted;
+  final onItemClicked;
 
   const ToDoItem({
     Key? key,
     required this.todo,
+    required this.onItemClicked,
     required this.onItemChanged,
     required this.onItemDeleted,
   }) : super(key: key);
@@ -23,16 +25,21 @@ class ToDoItem extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () {
-          onItemChanged(todo);
+          onItemClicked(todo);
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
         tileColor: Colors.white,
-        leading: Icon(
-          todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
-          color: tdBlue,
+        leading: IconButton(
+          icon: Icon(
+            todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
+            color: tdBlue,
+          ),
+          onPressed: () {
+            onItemChanged(todo);
+          },
         ),
         title: Text(
           todo.text,
