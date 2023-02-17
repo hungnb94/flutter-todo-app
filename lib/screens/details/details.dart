@@ -69,22 +69,21 @@ class _DetailsState extends State<Details> {
             icon: const Icon(Icons.done),
             color: Colors.white,
             iconSize: 30,
-            onPressed: save,
+            onPressed: _save,
           ),
           IconButton(
             icon: const Icon(Icons.delete),
             color: Colors.white,
             iconSize: 30,
-            onPressed: save,
+            onPressed: _delete,
           ),
         ],
       ),
     );
   }
 
-  void _back() {
-    Navigator.pop(context);
-  }
+  void _save() {}
 
-  void save() {}
+  void _delete() {
+  }
 }
