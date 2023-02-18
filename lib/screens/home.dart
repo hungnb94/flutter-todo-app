@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/screens/details/details_arguments.dart';
+import 'package:todo_app/screens/details/details_result.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
 import '../model/todo.dart';
@@ -37,8 +38,19 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _onItemClicked(ToDo todo) {
-    Navigator.pushNamed(context, '/details', arguments: DetailsArguments(todo));
+  Future<void> _onItemClicked(ToDo todo) async {
+    final result = await Navigator.pushNamed(context, '/details', arguments: DetailsArguments(todo));
+    if (!mounted || result == null) return;
+
+    if (result is DetailsResult) {
+      if (result.isEdited()) {
+        setState(() {
+          todo.text = result.todo.text;
+        });
+      } else if (result.isDeleted()) {
+        _onItemDeleted(todo);
+      }
+    }
   }
 
   @override

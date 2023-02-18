@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/screens/details/details_arguments.dart';
+import 'package:todo_app/screens/details/details_result.dart';
 
 import '../../constants/colors.dart';
 
@@ -82,8 +83,18 @@ class _DetailsState extends State<Details> {
     );
   }
 
-  void _save() {}
+  void _save() {
+    final args = ModalRoute.of(context)!.settings.arguments as DetailsArguments;
+    var todo = args.todo;
+    var result = DetailsResult(
+        DetailsResult.actionEdit, todo.copy(text: _todoController.text));
+    Navigator.of(context, rootNavigator: true).pop(result);
+  }
 
   void _delete() {
+    final args = ModalRoute.of(context)!.settings.arguments as DetailsArguments;
+    var todo = args.todo;
+    var result = DetailsResult(DetailsResult.actionDelete, todo);
+    Navigator.of(context, rootNavigator: true).pop(result);
   }
 }

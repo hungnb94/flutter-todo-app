@@ -9,6 +9,13 @@ class ToDo {
     this.isDone = false,
   });
 
+  ToDo copy({String? id, String? text, bool? isDone}) {
+    return ToDo(
+        id: id ?? this.id,
+        text: text ?? this.text,
+        isDone: isDone ?? this.isDone);
+  }
+
   static List<ToDo> todoList() {
     return [
       ToDo(id: '1', text: 'Morning Exercise', isDone: true),
