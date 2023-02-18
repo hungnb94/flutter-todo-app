@@ -43,6 +43,9 @@ class _DetailsState extends State<Details> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: TextField(
+              onChanged: (text) {
+                print("onChanged: $text");
+              },
               controller: _todoController,
               decoration: const InputDecoration(
                 hintText: 'Add a new todo item',
