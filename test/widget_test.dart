@@ -99,7 +99,7 @@ void main() {
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
     await tester.pump(const Duration(milliseconds: 100));
-    await tester.tap(find.byType(ListTile));
+    await tester.tap(find.byIcon(Icons.check_box_outline_blank));
     await tester.pump(const Duration(milliseconds: 100));
     var textStrikeThrough = find.byWidgetPredicate((widget) =>
         widget is Text &&
@@ -113,7 +113,7 @@ void main() {
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
     await tester.pump(const Duration(milliseconds: 100));
-    await tester.tap(find.byType(ListTile));
+    await tester.tap(find.byIcon(Icons.check_box));
     await tester.pump(const Duration(milliseconds: 100));
     var textStrikeThrough = find.byWidgetPredicate((widget) =>
         widget is Text &&
