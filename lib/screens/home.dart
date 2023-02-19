@@ -4,6 +4,7 @@ import 'package:todo_app/screens/details/details_arguments.dart';
 import 'package:todo_app/screens/details/details_result.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
+import '../generated/l10n.dart';
 import '../model/todo.dart';
 
 class Home extends StatefulWidget {
@@ -72,9 +73,9 @@ class _HomeState extends State<Home> {
                         top: 50,
                         bottom: 20,
                       ),
-                      child: const Text(
-                        'All Todos',
-                        style: TextStyle(
+                      child: Text(
+                        S.of(context).allTodos,
+                        style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w500,
                         ),
@@ -119,8 +120,8 @@ class _HomeState extends State<Home> {
                   ),
                   child: TextField(
                     controller: _todoController,
-                    decoration: const InputDecoration(
-                      hintText: 'Add a new todo item',
+                    decoration: InputDecoration(
+                      hintText: S.of(context).addANewTodoItem,
                       border: InputBorder.none,
                     ),
                   ),
@@ -181,17 +182,17 @@ class _HomeState extends State<Home> {
       child: TextField(
         controller: _searchController,
         onChanged: _filter,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.all(0),
-          prefixIcon: Icon(
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(0),
+          prefixIcon: const Icon(
             Icons.search,
             size: 20,
             color: tdBlack,
           ),
-          prefixIconConstraints: BoxConstraints(maxHeight: 20, minWidth: 25),
+          prefixIconConstraints: const BoxConstraints(maxHeight: 20, minWidth: 25),
           border: InputBorder.none,
-          hintText: 'Search',
-          hintStyle: TextStyle(color: tdGrey),
+          hintText: S.of(context).search,
+          hintStyle: const TextStyle(color: tdGrey),
         ),
       ),
     );

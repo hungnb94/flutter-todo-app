@@ -48,7 +48,6 @@ class _DetailsState extends State<Details> {
               },
               controller: _todoController,
               decoration: const InputDecoration(
-                hintText: 'Add a new todo item',
                 border: InputBorder.none,
               ),
             ),
