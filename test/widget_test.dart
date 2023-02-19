@@ -16,7 +16,7 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     // Verify that our counter starts at 0.
-    var tfToDoName = find.bySemanticsLabel('Add a new todo item');
+    var tfToDoName = find.bySemanticsLabel('Add a new to-do item');
     expect(tfToDoName, findsOneWidget);
     await tester.enterText(tfToDoName, 'Test add');
     await tester.pump(const Duration(milliseconds: 100));
@@ -57,11 +57,11 @@ void main() {
     await tester.enterText(find.bySemanticsLabel('Search'), 'abc');
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.byType(ListTile), findsNothing);
-    await tester.enterText(find.bySemanticsLabel('Add a new todo item'), 'abc');
+    await tester.enterText(find.bySemanticsLabel('Add a new to-do item'), 'abc');
     await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.text('+'));
     await tester.pump(const Duration(milliseconds: 100));
-    await tester.enterText(find.bySemanticsLabel('Add a new todo item'), 'abc');
+    await tester.enterText(find.bySemanticsLabel('Add a new to-do item'), 'abc');
     await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.text('+'));
     await tester.pump(const Duration(milliseconds: 100));
