@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/generated/l10n.dart';
 import 'package:todo_app/screens/details/details_arguments.dart';
 import 'package:todo_app/screens/details/details_result.dart';
 
@@ -67,7 +68,7 @@ class _DetailsState extends State<Details> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          const Expanded(child: Center(child: Text('Details'))),
+          Expanded(child: Center(child: Text(S.of(context).details))),
           IconButton(
             icon: const Icon(Icons.done),
             color: Colors.white,
