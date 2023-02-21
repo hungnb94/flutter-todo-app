@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/constants/colors.dart';
+import 'package:todo_app/data/todo_database.dart';
 import 'package:todo_app/screens/details/details_arguments.dart';
 import 'package:todo_app/screens/details/details_result.dart';
 import 'package:todo_app/widgets/todo_item.dart';
@@ -15,7 +16,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final todoList = ToDo.todoList();
+  final todoList = <ToDo>[];
   var foundTodos = <ToDo>[];
 
   final _todoController = TextEditingController();
@@ -24,19 +25,19 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    foundTodos = todoList;
     super.initState();
+    refreshList();
   }
 
   void _onItemDeleted(ToDo todo) {
-    todoList.remove(todo);
-    _filter(_searchController.text);
+    TodoDatabase.instance.delete(todo.id!);
+    refreshList();
   }
 
   void _onItemChanged(ToDo todo) {
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
+    todo.isDone = !todo.isDone;
+    TodoDatabase.instance.update(todo);
+    refreshList();
   }
 
   Future<void> _onItemClicked(ToDo todo) async {
@@ -202,9 +203,9 @@ class _HomeState extends State<Home> {
     var text = _todoController.text.trim();
     if (text.isNotEmpty) {
       var todo = ToDo(id: DateTime.now().millisecond.toString(), text: text);
-      todoList.add(todo);
+      TodoDatabase.instance.insert(todo);
       _todoController.clear();
-      _filter(_searchController.text);
+      refreshList();
     }
   }
 
@@ -221,5 +222,12 @@ class _HomeState extends State<Home> {
     setState(() {
       foundTodos = result;
     });
+  }
+
+  void refreshList() async {
+    var todos = await TodoDatabase.instance.getTodos();
+    todoList.clear();
+    todoList.addAll(todos);
+    _filter(_searchController.text);
   }
 }

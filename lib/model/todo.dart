@@ -1,3 +1,15 @@
+/// `to-do` table name
+const String tableTodo = 'todo';
+
+/// id column name
+const String columnId = '_id';
+
+/// title column name
+const String columnTitle = 'title';
+
+/// done column name
+const String columnDone = 'done';
+
 class ToDo {
   String? id;
   String text;
@@ -23,7 +35,26 @@ class ToDo {
       ToDo(id: '3', text: 'Check Mail', isDone: false),
       ToDo(id: '4', text: 'Team Meeting', isDone: false),
       ToDo(id: '5', text: 'Dinner with Tam', isDone: false),
-      ToDo(id: '5', text: 'Work on mobile app for 2 hours', isDone: false),
+      ToDo(id: '6', text: 'Work on mobile app for 2 hours', isDone: false),
     ];
+  }
+
+  static ToDo fromMap(Map map) {
+    return ToDo(
+      id: map[columnId],
+      text: map[columnTitle],
+      isDone: map[columnDone] == 1,
+    );
+  }
+
+  Map<String, Object?> toMap() {
+    final map = <String, Object?>{
+      columnTitle: text,
+      columnDone: isDone ? 1 : 0
+    };
+    if (id != null) {
+      map[columnId] = id;
+    }
+    return map;
   }
 }
