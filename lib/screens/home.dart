@@ -46,9 +46,8 @@ class _HomeState extends State<Home> {
 
     if (result is DetailsResult) {
       if (result.isEdited()) {
-        setState(() {
-          todo.text = result.todo.text;
-        });
+        TodoDatabase.instance.update(result.todo);
+        refreshList();
       } else if (result.isDeleted()) {
         _onItemDeleted(todo);
       }
