@@ -40,6 +40,8 @@ dependencies:
   sqflite: ^2.2.4+1
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
