@@ -29,6 +29,7 @@ void main() {
   testWidgets('Search test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
+    await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.byType(ListTile), findsWidgets);
     await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
@@ -40,6 +41,7 @@ void main() {
   testWidgets('Search & delete test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
+    await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.byType(ListTile), findsWidgets);
     await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
@@ -73,7 +75,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Buy');
     await tester.pump(const Duration(milliseconds: 100));
     var textStrikeThrough = find.byWidgetPredicate((widget) =>
         widget is Text &&
@@ -111,7 +113,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Check Mail');
     await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.byIcon(Icons.check_box));
     await tester.pump(const Duration(milliseconds: 100));
