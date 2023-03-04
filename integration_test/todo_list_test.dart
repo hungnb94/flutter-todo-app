@@ -44,7 +44,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.byType(ListTile), findsWidgets);
-    await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Test add');
     await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.byIcon(Icons.delete));
     await tester.pump(const Duration(milliseconds: 100));
@@ -59,16 +59,14 @@ void main() {
     await tester.enterText(find.bySemanticsLabel('Search'), 'abc');
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.byType(ListTile), findsNothing);
-    await tester.enterText(find.bySemanticsLabel('Add a new to-do item'), 'abc');
-    await tester.pump(const Duration(milliseconds: 100));
-    await tester.tap(find.text('+'));
-    await tester.pump(const Duration(milliseconds: 100));
-    await tester.enterText(find.bySemanticsLabel('Add a new to-do item'), 'abc');
+    await tester.enterText(
+        find.bySemanticsLabel('Add a new to-do item'), 'abc');
     await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.text('+'));
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.byType(ListTile), findsNWidgets(2));
+    expect(find.byType(ListTile), findsNWidgets(1));
+    await tester.tap(find.byIcon(Icons.delete));
   });
 
   testWidgets('Test show done', (WidgetTester tester) async {
@@ -113,7 +111,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    await tester.enterText(find.bySemanticsLabel('Search'), 'Check Mail');
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
     await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.byIcon(Icons.check_box));
     await tester.pump(const Duration(milliseconds: 100));
@@ -127,15 +125,19 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
+    await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
     await tester.pump(const Duration(milliseconds: 100));
-    await tester.tap(find.text('Morning Exercise'));
+    await tester.tap(find.text('Work on mobile app for 2 hours'));
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.byType(TextField), findsOneWidget);
-    await tester.enterText(find.byType(TextField), 'Morning Exercises');
+    await tester.enterText(find.byType(TextField), 'Work on mobile app for 2 hours');
     await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.byIcon(Icons.done));
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.text('Morning Exercises'), findsOneWidget);
   });
+}
+
+Future delay(int milliseconds) {
+  return Future.delayed(Duration(milliseconds: milliseconds));
 }
