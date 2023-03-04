@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:todo_app/main.dart';
 
-const timeoutFindWidgets = 10;
+const timeoutDoAction = 12;
 
 void main() {
   testWidgets('Add todo test', (WidgetTester tester) async {
@@ -19,33 +19,35 @@ void main() {
     var tfToDoName = find.bySemanticsLabel('Add a new to-do item');
     expect(tfToDoName, findsOneWidget);
     await tester.enterText(tfToDoName, 'Test add');
-    await tester.pump(const Duration(milliseconds: 100));
+    await delay(tester, timeoutDoAction);
     await tester.tap(find.text('+'));
-    await tester.pump(const Duration(milliseconds: 100));
+    await delay(tester, timeoutDoAction);
 
     expect(find.text('Test add'), findsOneWidget);
   });
 
   testWidgets('Search test', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
-    await tester.pump(const Duration(milliseconds: 100));
+    await delay(tester, timeoutDoAction);
 
     expect(find.byType(ListTile), findsWidgets);
     await tester.enterText(find.bySemanticsLabel('Search'), 'Morning');
-    await tester.pump(const Duration(milliseconds: 100));
+    await delay(tester, timeoutDoAction);
 
     expect(find.byType(ListTile), findsOneWidget);
   });
 
   testWidgets('Search & delete test', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
-    await tester.pump(const Duration(milliseconds: 100));
+    await delay(tester, timeoutDoAction);
 
     expect(find.byType(ListTile), findsWidgets);
     await tester.enterText(find.bySemanticsLabel('Search'), 'Test add');
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     await tester.tap(find.byIcon(Icons.delete));
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
 
     expect(find.byType(ListTile), findsNothing);
   });
@@ -54,13 +56,16 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'abc');
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     expect(find.byType(ListTile), findsNothing);
     await tester.enterText(
         find.bySemanticsLabel('Add a new to-do item'), 'abc');
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     await tester.tap(find.text('+'));
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
 
     expect(find.byType(ListTile), findsNWidgets(1));
     await tester.tap(find.byIcon(Icons.delete));
@@ -70,7 +75,8 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Buy');
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     var textStrikeThrough = find.byWidgetPredicate((widget) =>
         widget is Text &&
         widget.style?.decoration == TextDecoration.lineThrough);
@@ -81,7 +87,8 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     var textStrikeThrough = find.byWidgetPredicate((widget) =>
         widget is Text &&
         widget.style?.decoration == TextDecoration.lineThrough);
@@ -92,9 +99,11 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     await tester.tap(find.byIcon(Icons.check_box_outline_blank));
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     var textStrikeThrough = find.byWidgetPredicate((widget) =>
         widget is Text &&
         widget.style?.decoration == TextDecoration.lineThrough);
@@ -105,9 +114,11 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     await tester.tap(find.byIcon(Icons.check_box));
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     var textStrikeThrough = find.byWidgetPredicate((widget) =>
         widget is Text &&
         widget.style?.decoration == TextDecoration.lineThrough);
@@ -118,20 +129,22 @@ void main() {
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
-    await tester.pump(const Duration(milliseconds: 100));
+    
+    await delay(tester, timeoutDoAction);
     await tester.tap(find.text('Work on mobile app for 2 hours'));
-    await delay(100);
+    await delay(tester, timeoutDoAction);
     expect(find.widgetWithText(TextField, 'Work on mobile app for 2 hours'),
         findsOneWidget);
     await tester.enterText(
         find.widgetWithText(TextField, 'Work on mobile app for 2 hours'),
         'Work on mobile app for 3 hours');
-    await delay(100);
+    
+    await delay(tester, timeoutDoAction);
     await tester.tap(find.byIcon(Icons.done));
     expect(find.text('Work on mobile app for 3 hours'), findsOneWidget);
   });
 }
 
-Future delay(int milliseconds) {
-  return Future.delayed(Duration(milliseconds: milliseconds));
+Future<void> delay(WidgetTester tester, int milliseconds) {
+  return tester.pump(Duration(milliseconds: milliseconds));
 }
