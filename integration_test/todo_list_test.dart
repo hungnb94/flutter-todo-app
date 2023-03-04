@@ -10,12 +10,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:todo_app/main.dart';
 
+const timeoutFindWidgets = 10;
+
 void main() {
   testWidgets('Add todo test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
     var tfToDoName = find.bySemanticsLabel('Add a new to-do item');
     expect(tfToDoName, findsOneWidget);
     await tester.enterText(tfToDoName, 'Test add');
@@ -27,7 +27,6 @@ void main() {
   });
 
   testWidgets('Search test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
     await tester.pump(const Duration(milliseconds: 100));
 
@@ -39,7 +38,6 @@ void main() {
   });
 
   testWidgets('Search & delete test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
     await tester.pump(const Duration(milliseconds: 100));
 
@@ -53,7 +51,6 @@ void main() {
   });
 
   testWidgets('Search & add test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'abc');
@@ -70,7 +67,6 @@ void main() {
   });
 
   testWidgets('Test show done', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Buy');
@@ -82,7 +78,6 @@ void main() {
   });
 
   testWidgets('Test show undone', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
@@ -94,7 +89,6 @@ void main() {
   });
 
   testWidgets('Test trigger to done', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
@@ -108,7 +102,6 @@ void main() {
   });
 
   testWidgets('Test trigger to undone', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
@@ -122,19 +115,20 @@ void main() {
   });
 
   testWidgets('Test open details screen & edit', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
     await tester.enterText(find.bySemanticsLabel('Search'), 'Work');
     await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.text('Work on mobile app for 2 hours'));
-    await tester.pump(const Duration(milliseconds: 100));
-    expect(find.byType(TextField), findsOneWidget);
-    await tester.enterText(find.byType(TextField), 'Work on mobile app for 2 hours');
-    await tester.pump(const Duration(milliseconds: 100));
+    await delay(100);
+    expect(find.widgetWithText(TextField, 'Work on mobile app for 2 hours'),
+        findsOneWidget);
+    await tester.enterText(
+        find.widgetWithText(TextField, 'Work on mobile app for 2 hours'),
+        'Work on mobile app for 3 hours');
+    await delay(100);
     await tester.tap(find.byIcon(Icons.done));
-    await tester.pump(const Duration(milliseconds: 100));
-    expect(find.text('Morning Exercises'), findsOneWidget);
+    expect(find.text('Work on mobile app for 3 hours'), findsOneWidget);
   });
 }
 
