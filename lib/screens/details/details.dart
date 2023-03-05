@@ -76,7 +76,7 @@ class _DetailsState extends State<Details> {
             onPressed: _save,
           ),
           IconButton(
-            icon: const Icon(Icons.delete),
+            icon: const Icon(Icons.delete, key: Key('icon_delete'),),
             color: Colors.white,
             iconSize: 30,
             onPressed: _delete,
