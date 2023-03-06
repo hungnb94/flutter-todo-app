@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Todo Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Montserrat',
       ),
       localizationsDelegates: const [
         S.delegate,
