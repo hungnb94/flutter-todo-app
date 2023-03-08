@@ -10,22 +10,29 @@ const String columnTitle = 'title';
 /// done column name
 const String columnDone = 'done';
 
+/// deleted column name
+const String columnDeleted = 'deleted';
+
 class ToDo {
   String? id;
   String text;
   bool isDone;
+  bool deleted;
 
   ToDo({
     required this.id,
     required this.text,
     this.isDone = false,
+    this.deleted = false,
   });
 
-  ToDo copy({String? id, String? text, bool? isDone}) {
+  ToDo copy({String? id, String? text, bool? isDone, bool? deleted}) {
     return ToDo(
-        id: id ?? this.id,
-        text: text ?? this.text,
-        isDone: isDone ?? this.isDone);
+      id: id ?? this.id,
+      text: text ?? this.text,
+      isDone: isDone ?? this.isDone,
+      deleted: deleted ?? this.deleted,
+    );
   }
 
   static List<ToDo> todoList() {
@@ -44,13 +51,15 @@ class ToDo {
       id: map[columnId],
       text: map[columnTitle],
       isDone: map[columnDone] == 1,
+      deleted: map[columnDeleted] == 1
     );
   }
 
   Map<String, Object?> toMap() {
     final map = <String, Object?>{
       columnTitle: text,
-      columnDone: isDone ? 1 : 0
+      columnDone: isDone ? 1 : 0,
+      columnDeleted: deleted ? 1 : 0,
     };
     if (id != null) {
       map[columnId] = id;
