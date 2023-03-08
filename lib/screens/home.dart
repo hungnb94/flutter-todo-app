@@ -22,7 +22,6 @@ class _HomeState extends State<Home> {
   final _todoController = TextEditingController();
   final _searchController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -31,6 +30,17 @@ class _HomeState extends State<Home> {
 
   void _onItemDeleted(ToDo todo) {
     TodoDatabase.instance.delete(todo.id!);
+    var snackBar = SnackBar(
+      content: const Text('Item has been deleted'),
+      // action: SnackBarAction(
+      //   label: 'Undo',
+      //   onPressed: () {
+      //     TodoDatabase.instance.insert(todo);
+      //     refreshList();
+      //   },
+      // ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
     refreshList();
   }
 
@@ -41,7 +51,8 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _onItemClicked(ToDo todo) async {
-    final result = await Navigator.pushNamed(context, '/details', arguments: DetailsArguments(todo));
+    final result = await Navigator.pushNamed(context, '/details',
+        arguments: DetailsArguments(todo));
     if (!mounted || result == null) return;
 
     if (result is DetailsResult) {
@@ -189,7 +200,8 @@ class _HomeState extends State<Home> {
             size: 20,
             color: tdBlack,
           ),
-          prefixIconConstraints: const BoxConstraints(maxHeight: 20, minWidth: 25),
+          prefixIconConstraints:
+              const BoxConstraints(maxHeight: 20, minWidth: 25),
           border: InputBorder.none,
           hintText: S.of(context).search,
           hintStyle: const TextStyle(color: tdGrey),
