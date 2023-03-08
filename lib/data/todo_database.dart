@@ -37,7 +37,7 @@ create table $tableTodo(
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         var batch = db.batch();
-        if (newVersion == 2) {
+        if (oldVersion < 2) {
           _updateTableTodoV1ToV2(batch);
         }
         await batch.commit();
