@@ -31,14 +31,14 @@ class _HomeState extends State<Home> {
   void _onItemDeleted(ToDo todo) {
     TodoDatabase.instance.delete(todo.id!);
     var snackBar = SnackBar(
-      content: const Text('Item has been deleted'),
-      // action: SnackBarAction(
-      //   label: 'Undo',
-      //   onPressed: () {
-      //     TodoDatabase.instance.insert(todo);
-      //     refreshList();
-      //   },
-      // ),
+      content: Text(S.of(context).itemHasBeenDeleted),
+      action: SnackBarAction(
+        label: S.of(context).undo,
+        onPressed: () {
+          TodoDatabase.instance.recover(todo.id!);
+          refreshList();
+        },
+      ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     refreshList();

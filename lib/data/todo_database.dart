@@ -57,8 +57,12 @@ create table $tableTodo(
   /// Get a to-do.
   Future<List<ToDo>> getTodos() async {
     var db = await database;
-    final List<Map> maps =
-        await db.query(tableTodo, columns: [columnId, columnDone, columnTitle]);
+    final List<Map> maps = await db.query(
+      tableTodo,
+      columns: [columnId, columnDone, columnTitle],
+      where: '$columnDeleted = ?',
+      whereArgs: [0],
+    );
     return List.generate(maps.length, (index) => ToDo.fromMap(maps[index]));
   }
 
@@ -78,7 +82,27 @@ create table $tableTodo(
   /// Delete a to-do.
   Future<int> delete(String id) async {
     var db = await database;
-    return await db.delete(tableTodo, where: '$columnId = ?', whereArgs: [id]);
+    return await db.update(
+        tableTodo,
+        {
+          columnId: id,
+          columnDeleted: 1,
+        },
+        where: '$columnId = ?',
+        whereArgs: [id]);
+  }
+
+  /// Recover a to-do
+  Future<int> recover(String id) async {
+    var db = await database;
+    return await db.update(
+        tableTodo,
+        {
+          columnId: id,
+          columnDeleted: 0,
+        },
+        where: '$columnId = ?',
+        whereArgs: [id]);
   }
 
   /// Update a to-do.

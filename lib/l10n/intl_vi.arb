@@ -2,5 +2,7 @@
     "allTodos": "Tất cả",
     "addANewTodoItem": "Thêm một việc cần làm",
     "details": "Chi tiết",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "itemHasBeenDeleted": "Đầu việc đã được xóa",
+    "undo": "Khôi phục"
 }
