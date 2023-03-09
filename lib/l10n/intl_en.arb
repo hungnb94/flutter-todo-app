@@ -2,5 +2,7 @@
     "allTodos": "All Todos",
     "addANewTodoItem": "Add a new to-do item",
     "details": "Details",
-    "search": "Search"
+    "search": "Search",
+    "itemHasBeenDeleted": "Item has been deleted",
+    "undo": "Undo"
 }
