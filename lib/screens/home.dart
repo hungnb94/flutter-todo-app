@@ -75,23 +75,13 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(
             children: [
-              searchBox(),
+              _searchBox(),
               Expanded(
-                child: ListView(
+                child: GridView.count(
+                  crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 2,
+                  childAspectRatio: 5,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 50,
-                        bottom: 20,
-                      ),
-                      child: Text(
-                        S.of(context).allTodos,
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                    _textAllTodos(),
                     for (ToDo item in foundTodos.reversed)
                       ToDoItem(
                         todo: item,
@@ -181,7 +171,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  searchBox() {
+  Widget _searchBox() {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -240,5 +230,21 @@ class _HomeState extends State<Home> {
     todoList.clear();
     todoList.addAll(todos);
     _filter(_searchController.text);
+  }
+
+  Widget _textAllTodos() {
+    return Container(
+        margin: const EdgeInsets.only(
+          top: 25,
+          bottom: 20,
+        ),
+        child: Text(
+          S.of(context).allTodos,
+          style: const TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
   }
 }
