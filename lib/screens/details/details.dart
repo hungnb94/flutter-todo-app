@@ -21,7 +21,6 @@ class _DetailsState extends State<Details> {
     _todoController.text = args.todo.text;
 
     return Scaffold(
-      backgroundColor: tdBgColor,
       appBar: buildAppBar(),
       body: Column(children: [
         Expanded(
@@ -32,7 +31,7 @@ class _DetailsState extends State<Details> {
             ),
             margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.black,
               boxShadow: const [
                 BoxShadow(
                   color: Colors.grey,

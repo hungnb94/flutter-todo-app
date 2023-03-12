@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/screens/details/details.dart';
 import 'package:todo_app/screens/home.dart';
 
@@ -19,9 +20,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Todo Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
+            .copyWith(background: tdBgColor),
         fontFamily: 'Montserrat',
       ),
+      darkTheme: ThemeData.dark(useMaterial3: true),
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

@@ -31,7 +31,7 @@ class ToDoItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-        tileColor: Colors.white,
+        tileColor: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.black,
         leading: IconButton(
           icon: Icon(
             todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
@@ -44,7 +44,7 @@ class ToDoItem extends StatelessWidget {
         title: Text(
           todo.text,
           style: TextStyle(
-            color: tdBlack,
+            color: Theme.of(context).brightness == Brightness.light ? tdBlack : tdGrey,
             fontSize: 16,
             decoration: todo.isDone ? TextDecoration.lineThrough : null,
           ),
