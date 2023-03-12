@@ -21,8 +21,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Todo Demo',
       theme: ThemeData(
         brightness: Brightness.light,
+        scaffoldBackgroundColor: tdBgColor,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
-            .copyWith(background: tdBgColor),
+            .copyWith(),
         fontFamily: 'Montserrat',
       ),
       darkTheme: ThemeData.dark(useMaterial3: true),
