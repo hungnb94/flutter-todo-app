@@ -68,7 +68,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: tdBgColor,
       appBar: buildAppBar(),
       body: Stack(children: [
         Container(
@@ -108,7 +107,7 @@ class _HomeState extends State<Home> {
                   margin:
                       const EdgeInsets.only(left: 20, bottom: 20, right: 20),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.black,
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.grey,
@@ -157,7 +156,6 @@ class _HomeState extends State<Home> {
 
   buildAppBar() {
     return AppBar(
-      backgroundColor: tdBgColor,
       elevation: 0,
       title: Row(
         children: const [
@@ -177,7 +175,7 @@ class _HomeState extends State<Home> {
         horizontal: 15,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.black,
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
