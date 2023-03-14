@@ -53,9 +53,6 @@ class _DetailsState extends State<Details> {
             ),
           ),
         ),
-        Row(
-          children: [],
-        ),
       ]),
     );
   }
