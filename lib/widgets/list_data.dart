@@ -50,5 +50,7 @@ class ListModel<E> {
 
   E operator [](int index) => _items[index];
 
+  void operator []=(int index, E value) => _items[index] = value;
+
   int indexOf(E item) => _items.indexOf(item);
 }
