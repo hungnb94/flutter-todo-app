@@ -26,7 +26,8 @@ class TodoDatabase {
 create table $tableTodo(
   $columnId text primary key not null,
   $columnTitle text not null,
-  $columnDone integer not null)
+  $columnDone integer not null,
+  $columnDeleted integer not null default 0)
 ''');
         await db.transaction((txn) async {
           var list = ToDo.todoList();
