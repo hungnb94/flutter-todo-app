@@ -80,7 +80,6 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               _searchBox(),
-              _textAllTodos(),
               Expanded(
                 child: AnimatedGrid(
                   padding: const EdgeInsets.only(top: 25, bottom: 20),
@@ -293,21 +292,5 @@ class _HomeState extends State<Home> {
     todoList.clear();
     todoList.addAll(todos);
     _filter(_searchController.text);
-  }
-
-  Widget _textAllTodos() {
-    return Container(
-      margin: const EdgeInsets.only(
-        top: 25,
-        bottom: 20,
-      ),
-      child: Text(
-        S.of(context).allTodos,
-        style: const TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
   }
 }
