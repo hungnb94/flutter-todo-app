@@ -3,6 +3,7 @@ import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/data/todo_database.dart';
 import 'package:todo_app/screens/details/details_arguments.dart';
 import 'package:todo_app/screens/details/details_result.dart';
+import 'package:todo_app/widgets/list_data.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
 import '../generated/l10n.dart';
@@ -17,7 +18,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final todoList = <ToDo>[];
-  var foundTodos = <ToDo>[];
+  final GlobalKey<AnimatedGridState> _animatedKey =
+      GlobalKey<AnimatedGridState>();
+  late ListModel<ToDo> foundTodos;
 
   final _todoController = TextEditingController();
   final _searchController = TextEditingController();
@@ -25,6 +28,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    foundTodos =
+        ListModel(listKey: _animatedKey, removedItemBuilder: _buildRemovedItem);
     refreshList();
   }
 
@@ -76,19 +81,18 @@ class _HomeState extends State<Home> {
             children: [
               _searchBox(),
               Expanded(
-                child: GridView.count(
-                  crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 2,
-                  childAspectRatio: 5,
-                  children: [
-                    _textAllTodos(),
-                    for (ToDo item in foundTodos.reversed)
-                      ToDoItem(
-                        todo: item,
-                        onItemClicked: _onItemClicked,
-                        onItemChanged: _onItemChanged,
-                        onItemDeleted: _onItemDeleted,
-                      )
-                  ],
+                child: AnimatedGrid(
+                  padding: const EdgeInsets.only(top: 25, bottom: 20),
+                  key: _animatedKey,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: MediaQuery.of(context).orientation ==
+                            Orientation.portrait
+                        ? 1
+                        : 2,
+                    childAspectRatio: 5,
+                  ),
+                  initialItemCount: foundTodos.length,
+                  itemBuilder: _buildItem,
                 ),
               )
             ],
@@ -107,7 +111,9 @@ class _HomeState extends State<Home> {
                   margin:
                       const EdgeInsets.only(left: 20, bottom: 20, right: 20),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.black,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.grey,
@@ -175,7 +181,9 @@ class _HomeState extends State<Home> {
         horizontal: 15,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.black,
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
@@ -195,6 +203,37 @@ class _HomeState extends State<Home> {
           hintStyle: const TextStyle(color: tdGrey),
         ),
       ),
+    );
+  }
+
+  Widget _buildItem(
+      BuildContext context, int index, Animation<double> animation) {
+    var todo = foundTodos[index];
+    return ScaleTransition(
+      scale: CurvedAnimation(
+        parent: animation,
+        curve: Curves.bounceOut,
+      ),
+      child: ToDoItem(
+          todo: todo,
+          onItemClicked: _onItemClicked,
+          onItemChanged: _onItemChanged,
+          onItemDeleted: _onItemDeleted),
+    );
+  }
+
+  Widget _buildRemovedItem(
+      ToDo item, BuildContext context, Animation<double> animation) {
+    return ScaleTransition(
+      scale: CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOut,
+      ),
+      child: ToDoItem(
+          todo: item,
+          onItemClicked: _onItemClicked,
+          onItemChanged: _onItemChanged,
+          onItemDeleted: _onItemDeleted),
     );
   }
 
@@ -218,8 +257,33 @@ class _HomeState extends State<Home> {
     } else {
       result = todoList;
     }
+    updateList(result.reversed.toList());
+  }
+
+  void updateList(List<ToDo> newList) {
+    var i = 0, j = 0;
+    while (i < foundTodos.length && j < newList.length) {
+      var first = foundTodos[i];
+      var second = newList[j];
+      if (first.id == second.id) {
+        i++;
+        j++;
+      } else if ((newList.indexWhere((element) => element.id == first.id, j)) >= 0) {
+        foundTodos.insert(i, second);
+        i++;
+        j++;
+      } else {
+        foundTodos.removeAt(i);
+      }
+    }
+    while (i < foundTodos.length) {
+      foundTodos.removeAt(i);
+    }
+    while (j < newList.length) {
+      foundTodos.insert(j, newList[j++]);
+    }
     setState(() {
-      foundTodos = result;
+      foundTodos;
     });
   }
 
@@ -228,21 +292,5 @@ class _HomeState extends State<Home> {
     todoList.clear();
     todoList.addAll(todos);
     _filter(_searchController.text);
-  }
-
-  Widget _textAllTodos() {
-    return Container(
-        margin: const EdgeInsets.only(
-          top: 25,
-          bottom: 20,
-        ),
-        child: Text(
-          S.of(context).allTodos,
-          style: const TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      );
   }
 }
