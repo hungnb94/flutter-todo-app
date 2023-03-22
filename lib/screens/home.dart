@@ -4,6 +4,7 @@ import 'package:todo_app/data/todo_database.dart';
 import 'package:todo_app/screens/details/details_arguments.dart';
 import 'package:todo_app/screens/details/details_result.dart';
 import 'package:todo_app/widgets/list_data.dart';
+import 'package:todo_app/widgets/search_box.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 
 import '../generated/l10n.dart';
@@ -79,7 +80,7 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 15),
           child: Column(
             children: [
-              _searchBox(),
+              SearchBox(controller: _searchController, onChanged: _filter),
               Expanded(
                 child: AnimatedGrid(
                   padding: const EdgeInsets.only(top: 25, bottom: 20),
@@ -171,41 +172,6 @@ class _HomeState extends State<Home> {
             size: 30,
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _searchBox() {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      padding: const EdgeInsets.only(top: 10, bottom: 5),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.light
-              ? Colors.white
-              : Colors.black,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: TextField(
-          controller: _searchController,
-          onChanged: _filter,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(0),
-            prefixIcon: const Icon(
-              Icons.search,
-              size: 20,
-              color: tdBlack,
-            ),
-            prefixIconConstraints:
-                const BoxConstraints(maxHeight: 20, minWidth: 25),
-            border: InputBorder.none,
-            hintText: S.of(context).search,
-            hintStyle: const TextStyle(color: tdGrey),
-          ),
-        ),
       ),
     );
   }
