@@ -236,6 +236,7 @@ class _HomeState extends State<Home> {
       var first = foundTodos[i];
       var second = newList[j];
       if (first.id == second.id) {
+        foundTodos[i] = second;
         i++;
         j++;
       } else if ((newList.indexWhere((element) => element.id == first.id, j)) >= 0) {
