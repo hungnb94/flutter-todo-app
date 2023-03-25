@@ -239,7 +239,8 @@ class _HomeState extends State<Home> {
         foundTodos[i] = second;
         i++;
         j++;
-      } else if ((newList.indexWhere((element) => element.id == first.id, j)) >= 0) {
+      } else if ((newList.indexWhere((element) => element.id == first.id, j)) >=
+          0) {
         foundTodos.insert(i, second);
         i++;
         j++;
