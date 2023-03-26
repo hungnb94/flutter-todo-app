@@ -3,6 +3,7 @@ import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/data/todo_database.dart';
 import 'package:todo_app/screens/details/details_arguments.dart';
 import 'package:todo_app/screens/details/details_result.dart';
+import 'package:todo_app/widgets/button_add.dart';
 import 'package:todo_app/widgets/list_data.dart';
 import 'package:todo_app/widgets/search_box.dart';
 import 'package:todo_app/widgets/todo_item.dart';
@@ -134,25 +135,8 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(
-                  right: 20,
-                  bottom: 20,
-                ),
-                child: ElevatedButton(
-                  onPressed: _addToDoItem,
-                  child: const Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 40,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tdBlue,
-                    minimumSize: const Size(60, 60),
-                    elevation: 10,
-                  ),
-                ),
+              ButtonAdd(
+                onPressed: _addToDoItem,
               ),
             ],
           ),
