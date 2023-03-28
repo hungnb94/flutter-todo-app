@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/constants/colors.dart';
+import 'package:todo_app/screens/details/detail_model.dart';
 import 'package:todo_app/screens/details/details.dart';
 import 'package:todo_app/screens/home.dart';
 
 import 'generated/l10n.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => DetailModel(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -22,8 +27,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         scaffoldBackgroundColor: tdBgColor,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
-            .copyWith(),
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: Colors.green).copyWith(),
         fontFamily: 'Montserrat',
       ),
       darkTheme: ThemeData.dark(useMaterial3: true),

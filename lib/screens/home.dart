@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/constants/colors.dart';
 import 'package:todo_app/data/todo_database.dart';
-import 'package:todo_app/screens/details/details_arguments.dart';
+import 'package:todo_app/screens/details/detail_model.dart';
 import 'package:todo_app/screens/details/details_result.dart';
 import 'package:todo_app/widgets/button_add.dart';
 import 'package:todo_app/widgets/list_data.dart';
@@ -58,8 +59,9 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _onItemClicked(ToDo todo) async {
-    final result = await Navigator.pushNamed(context, '/details',
-        arguments: DetailsArguments(todo));
+    var detail = context.read<DetailModel>();
+    detail.item = todo;
+    final result = await Navigator.pushNamed(context, '/details');
     if (!mounted || result == null) return;
 
     if (result is DetailsResult) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/generated/l10n.dart';
+import 'package:todo_app/screens/details/detail_model.dart';
 import 'package:todo_app/screens/details/details_arguments.dart';
 import 'package:todo_app/screens/details/details_result.dart';
 
@@ -17,8 +19,8 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as DetailsArguments;
-    _todoController.text = args.todo.text;
+    var todo = context.watch<DetailModel>();
+    _todoController.text = todo.item.text;
 
     return Scaffold(
       appBar: buildAppBar(),
@@ -83,8 +85,8 @@ class _DetailsState extends State<Details> {
   }
 
   void _save() {
-    final args = ModalRoute.of(context)!.settings.arguments as DetailsArguments;
-    var todo = args.todo;
+    final detail = context.read<DetailModel>();
+    var todo = detail.item;
     var result = DetailsResult(
         DetailsResult.actionEdit, todo.copy(text: _todoController.text));
     Navigator.of(context, rootNavigator: true).pop(result);
