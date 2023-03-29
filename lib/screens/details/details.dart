@@ -93,8 +93,8 @@ class _DetailsState extends State<Details> {
   }
 
   void _delete() {
-    final args = ModalRoute.of(context)!.settings.arguments as DetailsArguments;
-    var todo = args.todo;
+    final detail = context.read<DetailModel>();
+    var todo = detail.item;
     var result = DetailsResult(DetailsResult.actionDelete, todo);
     Navigator.of(context, rootNavigator: true).pop(result);
   }
